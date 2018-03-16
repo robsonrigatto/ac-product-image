@@ -4,12 +4,10 @@ import br.com.rr.productimage.controller.ImageController;
 import br.com.rr.productimage.controller.ProductController;
 import io.swagger.jaxrs.config.BeanConfig;
 import io.swagger.jaxrs.listing.ApiListingResource;
-import javax.ws.rs.ApplicationPath;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.springframework.stereotype.Component;
 
 @Component
-@ApplicationPath("/app")
 public class JerseyConfig extends ResourceConfig {
 
     public JerseyConfig() {

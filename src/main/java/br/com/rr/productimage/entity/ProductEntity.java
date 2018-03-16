@@ -9,10 +9,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "PRODUCT")
 public class ProductEntity {
 
     @Id
@@ -21,10 +22,6 @@ public class ProductEntity {
 
     @Column(name = "DESCRIPTION")
     private String description;
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "PARENT_PRODUCT_ID")
-    private ProductEntity parentProduct;
 
     @OneToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "PRODUCT_IMAGE",
@@ -54,10 +51,6 @@ public class ProductEntity {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public ProductEntity getParentProduct() { return parentProduct; }
-
-    public void setParentProduct(ProductEntity parentProduct) { this.parentProduct = parentProduct; }
 
     public List<ImageEntity> getImages() { return images; }
 

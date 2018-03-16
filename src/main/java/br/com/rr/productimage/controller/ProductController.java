@@ -74,7 +74,7 @@ public class ProductController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") Long id,
                              @DefaultValue("false") @QueryParam("includeChildProducts") Boolean includeChildProducts,
-                             @DefaultValue("false") @QueryParam("includeChildProducts") Boolean includeImages) {
+                             @DefaultValue("false") @QueryParam("includeImages") Boolean includeImages) {
         Optional<ProductEntity> optional = productRepository.findById(id);
 
         if(optional.isPresent()) {
@@ -97,7 +97,7 @@ public class ProductController {
         UriBuilder uriBuilder = uriInfo.getAbsolutePathBuilder();
         uriBuilder.path(savedEntity.getId().toString());
 
-        return Response.ok(uriBuilder.build()).build();
+        return Response.noContent().build();
     }
 
     @DELETE
@@ -109,12 +109,15 @@ public class ProductController {
 
     private ProductEntity voToEntity(ProductVO productVO) {
         final ProductEntity entity = new ProductEntity();
+        entity.setId(productVO.getId());
         entity.setDescription(productVO.getDescription());
 
+        entity.getChildProducts().clear();
         productVO.getChildProducts().stream().forEach(cpVO -> {
-            entity.getChildProducts().add(productRepository.findById(productVO.getId()).get());
+            entity.getChildProducts().add(productRepository.findById(cpVO.getId()).get());
         });
 
+        entity.getImages().clear();
         productVO.getImages().stream().forEach(imgVO -> {
             ImageEntity image = new ImageEntity();
             image.setFileName(imgVO.getFileName());
@@ -128,7 +131,7 @@ public class ProductController {
     private void loadChildrenInformation(Boolean includeChildProducts, Boolean includeImages,
                                          ProductEntity entity, ProductVO vo) {
         if(includeChildProducts) {
-            List<ProductEntity> childProducts = productRepository.findAllByParentProduct(entity);
+            List<ProductEntity> childProducts = productRepository.findAllByParentProductId(entity.getId());
             List<ProductVO> childProductsVO = childProducts.stream().map(cp -> new ProductVO(cp.getId(), cp.getDescription()))
                     .collect(Collectors.toList());
             vo.setChildProducts(childProductsVO);

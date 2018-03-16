@@ -3,6 +3,7 @@ package br.com.rr.productimage.controller;
 import br.com.rr.productimage.entity.ImageEntity;
 import br.com.rr.productimage.repository.ImageRepository;
 import br.com.rr.productimage.vo.ImageVO;
+import io.swagger.annotations.Api;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +26,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Path("/images")
+@Api
 public class ImageController {
 
     @Autowired

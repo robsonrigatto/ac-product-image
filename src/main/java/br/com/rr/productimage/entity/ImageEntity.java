@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class ImageEntity {
@@ -17,6 +20,10 @@ public class ImageEntity {
 
     @Column(name="FILE_CONTENT")
     private String fileContent;
+
+    @ManyToOne
+    @JoinColumn(name = "PRODUCT_ID")
+    private ProductEntity product;
 
     public Long getId() {
         return id;
@@ -41,4 +48,8 @@ public class ImageEntity {
     public void setFileContent(String fileContent) {
         this.fileContent = fileContent;
     }
+
+    public ProductEntity getProduct() { return product; }
+
+    public void setProduct(ProductEntity product) { this.product = product; }
 }

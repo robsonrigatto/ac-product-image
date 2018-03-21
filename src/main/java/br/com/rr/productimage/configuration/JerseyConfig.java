@@ -20,11 +20,12 @@ public class JerseyConfig extends ResourceConfig {
     private void configureSwagger() {
         register(ApiListingResource.class);
         BeanConfig beanConfig = new BeanConfig();
+        beanConfig.setTitle("product-image");
         beanConfig.setVersion("0.0.1");
         beanConfig.setSchemes(new String[]{"http"});
         beanConfig.setHost("localhost:8080");
         beanConfig.setBasePath("/");
-        beanConfig.setDescription("Sample");
+        beanConfig.setDescription("JPA + JAX-RS");
         beanConfig.setContact("rigatto.robson@gmail.com");
         beanConfig.setResourcePackage("br.com.rr.productimage.controller");
         beanConfig.setPrettyPrint(true);

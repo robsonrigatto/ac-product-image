@@ -91,6 +91,7 @@ public class ProductController {
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
+    @Transactional
     public Response update(ProductVO productVO, @Context UriInfo uriInfo) {
         ProductEntity savedEntity = this.voToEntity(productVO);
 
@@ -112,7 +113,11 @@ public class ProductController {
         entity.setId(productVO.getId());
         entity.setDescription(productVO.getDescription());
 
-        entity.getChildProducts().clear();
+        if(entity.getId() != null) {
+            entity.getChildProducts().clear();
+            productRepository.deleteAllChildProductsByProductId(entity.getId());
+        }
+
         productVO.getChildProducts().stream().forEach(cpVO -> {
             entity.getChildProducts().add(productRepository.findById(cpVO.getId()).get());
         });

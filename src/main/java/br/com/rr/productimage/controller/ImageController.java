@@ -60,10 +60,11 @@ public class ImageController {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response findById(@PathParam("id") Long id) {
-        Optional<ImageEntity> entity = imageRepository.findById(id);
+        Optional<ImageEntity> entityOpt = imageRepository.findById(id);
 
-        if(entity.isPresent()) {
-            return Response.ok(entity.get()).build();
+        if(entityOpt.isPresent()) {
+            ImageEntity entity = entityOpt.get();
+            return Response.ok(new ImageVO(entity.getId(), entity.getFileName(), entity.getFileContent())).build();
         }
 
         return Response.noContent().build();

@@ -116,13 +116,15 @@ public class ProductController {
         if(entity.getId() != null) {
             entity.getChildProducts().clear();
             productRepository.deleteAllChildProductsByProductId(entity.getId());
+
+            entity.getImages().clear();
+            imageRepository.deleteAllImagesByProductId(entity.getId());
         }
 
         productVO.getChildProducts().stream().forEach(cpVO -> {
             entity.getChildProducts().add(productRepository.findById(cpVO.getId()).get());
         });
 
-        entity.getImages().clear();
         productVO.getImages().stream().forEach(imgVO -> {
             ImageEntity image = new ImageEntity();
             image.setFileName(imgVO.getFileName());
